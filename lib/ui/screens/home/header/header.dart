@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_management/api/data_models/auth_response/getUser_response.dart';
+import 'package:student_management/api/repositories/authentication_repositories.dart';
 import 'package:student_management/ui/constant/appColors.dart';
 import 'package:student_management/ui/constant/appFonts.dart';
 import 'package:student_management/ui/constant/global.dart';
@@ -8,6 +12,7 @@ import 'package:student_management/ui/responsiveness/responsive.dart';
 import 'package:student_management/ui/screens/simple_models/headerItem.dart';
 
 class Header extends StatelessWidget {
+
   const Header({Key? key}) : super(key: key);
 
   @override
@@ -26,6 +31,8 @@ class Header extends StatelessWidget {
 }
 
 Widget buildMobileHeader(context) {
+  final authProv = Provider.of<AuthProvider>(context);
+  var _userData =  authProv.userData;
   return SafeArea(
       child: Padding(
     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +40,7 @@ Widget buildMobileHeader(context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Hello Admin',
+          'Hello ${_userData.adminName}',
           style: AppFonts.blueHeader,
         ),
         GestureDetector(
@@ -53,10 +60,18 @@ Widget buildMobileHeader(context) {
 
 Widget buildHeader(context) {
   List<HeaderItem> headerItem = [
-    HeaderItem(onTap: () {}, title: "SOMETHING"),
     HeaderItem(onTap: () {}, title: "NOTIFICATION"),
     HeaderItem(onTap: () {}, title: "SETTING"),
     HeaderItem(onTap: () {}, title: "SKILLS"),
+    HeaderItem(
+          onTap: () async {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteNames.authScreen, (route) => false);
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            await preferences.clear();
+          },
+          title: "SIGN OUT"),
     HeaderItem(
         onTap: () {
           goTo(context: context, page: RouteNames.addStudent).nav();

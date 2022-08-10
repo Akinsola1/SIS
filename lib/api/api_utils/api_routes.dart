@@ -1,11 +1,21 @@
 class ApiRoutes {
   //base route
-  static const String base = 'https://freepad.herokuapp.com/api/v1';
+  static const String base = 'https://stormy-falls-69167.herokuapp.com/api';
 
   //AUthentication
-  static const String signUp = '$base/register';
+  static const String signUp = '$base/signup';
   static const String login = '$base/login';
-  static const String userProfile = '$base/profile';  
+
+
+  // get user profile
+  static const String userProfile = '$base/user';
+
+  // add data  
+  static const String addTeacher = '$base/teacher';
+  static const String addStudent = '$base/student';
+
+  
+
 
   // request
   static const String donateRequest = '$base/requests';

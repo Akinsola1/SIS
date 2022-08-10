@@ -32,18 +32,20 @@ Widget _buildUi(BuildContext context, double width) {
         onTap: () {
           goTo(context: context, page: RouteNames.addStudent).nav();
         },
-        icon: Icons.add),
+        icon: Icons.school),
     DashboardActivityModel(
         title: "Add Teacher",
         onTap: () {
           goTo(context: context, page: RouteNames.addTeacher).nav();
         },
-        icon: Icons.view_agenda),
+        icon: Icons.person),
     DashboardActivityModel(
         title: "View Record", onTap: () {
           goTo(context: context, page: RouteNames.viewRecord).nav();
 
-        }, icon: Icons.person),
+        }, icon: Icons.remove_red_eye),
+
+    
   ];
   return ResponsiveWrapper(
     maxWidth: width,
@@ -81,7 +83,7 @@ Widget _buildUi(BuildContext context, double width) {
                         children: [
                           Text(
                             dashBoardActivity.elementAt(index).title,
-                            style: AppFonts.bodyBlack,
+                            style: AppFonts.tinyBlack,
                           ),
                           const SizedBox(
                             height: 5,

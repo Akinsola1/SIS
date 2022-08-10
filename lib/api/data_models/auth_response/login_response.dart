@@ -10,44 +10,24 @@ String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse {
     LoginResponse({
-        this.status,
-        this.message,
-        this.category,
-        this.data,
+        this.success,
+        this.token,
+        this.userId,
     });
 
-    int ?status;
-    String? message;
-    String ?category;
-    Data ?data;
+    bool ?success;
+    String ?token;
+    String ?userId;
 
     factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        status: json["status"],
-        message: json["message"],
-        category: json["category"],
-        data: Data.fromJson(json["data"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "category": category,
-        "data": data!.toJson(),
-    };
-}
-
-class Data {
-    Data({
-        this.token,
-    });
-
-    String ? token;
-
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        success: json["success"],
         token: json["token"],
+        userId: json["userId"],
     );
 
     Map<String, dynamic> toJson() => {
+        "success": success,
         "token": token,
+        "userId": userId,
     };
 }

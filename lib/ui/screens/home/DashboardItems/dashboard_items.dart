@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:student_management/api/repositories/authentication_repositories.dart';
 import 'package:student_management/ui/constant/appColors.dart';
 import 'package:student_management/ui/constant/appFonts.dart';
 import 'package:student_management/ui/responsiveness/responsive.dart';
@@ -24,6 +26,17 @@ class DashboardItems extends StatelessWidget {
 }
 
 Widget _buildUi(BuildContext context, double width) {
+  final authProv = Provider.of<AuthProvider>(context);
+  var studentList =  authProv.studentList.length;
+  var teacherList =  authProv.teacherList.length;
+
+
+  List<DashboardItem> dashBoardItem = [
+  DashboardItem("Total Student", () {}, "${studentList}"),
+  DashboardItem("Session Income", () {}, " ₦0"),
+  DashboardItem("Total Teachers", () {}, "${teacherList}")
+];
+
   return ResponsiveWrapper(
     maxWidth: width,
     minWidth: width,

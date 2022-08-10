@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
+import 'package:student_management/locator.dart';
+import 'package:student_management/ui/constant/provider.dart';
 import 'package:student_management/ui/constant/screen_routes.dart';
 import 'package:student_management/ui/screens/authentication/authScreens.dart';
 
 void main() {
-  runApp(const MyApp());
+  setupLocator();
+  runApp(MultiProvider(providers: AppProviders.providers, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

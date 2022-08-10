@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+import 'package:student_management/api/repositories/authentication_repositories.dart';
 import 'package:student_management/ui/constant/appFonts.dart';
+import 'package:student_management/ui/constant/screen_routes.dart';
+import 'package:student_management/ui/responsive_state.dart/responsive_state.dart';
 import 'package:student_management/ui/responsiveness/responsive.dart';
 import 'package:student_management/ui/widgets/custom_dropdown.dart';
 import 'package:student_management/ui/widgets/widgetsExport.dart';
@@ -14,16 +18,19 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
-  List<String> levels = [];
-  String selectedClass = '';
+  List<String> levels = ["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"];
   String selectedLevel = '';
-
-  var classes = {
-    'Junior Secondary': ["JSS1", "JSS2", "JSS3"],
-    'Senior Secondary': ["SS1", "SS2", "SS3"],
-  };
+  List<String> genderList = ["Male", "Female", "Binary"];
+  String selectedGender = '';
+  final TextEditingController name = TextEditingController();
+  final TextEditingController age = TextEditingController();
+  final TextEditingController parentName = TextEditingController();
+  final TextEditingController parentPhone = TextEditingController();
+  final TextEditingController state = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authProv = Provider.of<AuthProvider>(context);
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
@@ -48,36 +55,52 @@ class _AddStudentState extends State<AddStudent> {
             ),
             CustomTextField(
               labelText: 'Name',
+              controller: name,
             ),
             const SizedBox(
               height: 10,
             ),
             CustomTextField(
               labelText: 'Age',
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              labelText: 'Name',
+              controller: age,
             ),
             const SizedBox(
               height: 10,
             ),
             CustomDropDown(
-              options: classes.keys.toList(),
+              options: genderList.toList(),
               onChanged: (option) {
                 setState(() {
-                  selectedClass = option;
-                  levels = classes[selectedClass] ?? [];
+                  selectedGender = option;
                 });
               },
-              hintText: 'Class',
+              hintText: 'Gender',
               fillColor: Colors.transparent,
               elevation: 2,
               margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
               hidesUnderline: true,
-              initialOption: selectedClass,
+              initialOption: selectedGender,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
+              labelText: 'State of origin',
+              controller: state,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
+              labelText: 'Parent Name',
+              controller: parentName,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomTextField(
+              labelText: 'Parent phone',
+              controller: parentPhone,
             ),
             const SizedBox(
               height: 10,
@@ -89,21 +112,47 @@ class _AddStudentState extends State<AddStudent> {
                   selectedLevel = option;
                 });
               },
-              hintText: 'Level',
+              hintText: 'Class',
               fillColor: Colors.transparent,
               elevation: 2,
               margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
               hidesUnderline: true,
               initialOption: selectedLevel,
             ),
-            const SizedBox(height: 30,),
-            SizedBox(
-              width: responsive.isMobile(context) ? size.width : size.width / 2,
-              child: CustomButton(
-                onTap: () {},
-                label: 'Add',
+            const SizedBox(
+              height: 30,
+            ),
+            ResponsiveState(
+              state: authProv.state,
+              busyWidget: const SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(strokeWidth: 6)),
+              idleWidget: Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      onTap: () async {
+                        bool response = await authProv.addStudent(
+                            name.text,
+                            selectedLevel,
+                            age.text,
+                            state.text,
+                            parentPhone.text,
+                            parentName.text,
+                            selectedGender);
+
+                        if (response) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, RouteNames.dashBoard, (route) => false);
+                        }
+                      },
+                      label: 'Add Student',
+                    ),
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),

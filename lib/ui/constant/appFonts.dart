@@ -41,4 +41,9 @@ class AppFonts {
       fontSize: 12,
       fontFamily: 'urbanist',
       fontWeight: FontWeight.w400);
+  static const tinyBlack = TextStyle(
+      color: Colors.black,
+      fontSize: 12,
+      fontFamily: 'urbanist',
+      fontWeight: FontWeight.w400);
 }

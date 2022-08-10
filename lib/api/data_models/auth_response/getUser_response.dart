@@ -1,88 +1,33 @@
 // To parse this JSON data, do
 //
-//     final userResponse = userResponseFromJson(jsonString);
+//     final getUserResponse = getUserResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-UserResponse userResponseFromJson(String str) => UserResponse.fromJson(json.decode(str));
+GetUserResponse getUserResponseFromJson(String str) => GetUserResponse.fromJson(json.decode(str));
 
-String userResponseToJson(UserResponse data) => json.encode(data.toJson());
+String getUserResponseToJson(GetUserResponse data) => json.encode(data.toJson());
 
-class UserResponse {
-    UserResponse({
-        this.status,
-        this.message,
-        this.data,
+class GetUserResponse {
+    GetUserResponse({
+        this.id,
+        this.schoolName,
+        this.adminName,
     });
 
-    int ? status;
-    String? message;
-    Data ?data;
+    String ?id;
+    String ?schoolName;
+    String ?adminName;
 
-    factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
-        status: json["status"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
+    factory GetUserResponse.fromJson(Map<String, dynamic> json) => GetUserResponse(
+        id: json["_id"],
+        schoolName: json["schoolName"],
+        adminName: json["adminName"],
     );
 
     Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "data": data!.toJson(),
-    };
-}
-
-class Data {
-    Data({
-        this.name,
-        this.email,
-        this.category,
-        this.image,
-        this.wallet,
-        this.peopleHelped,
-        this.city,
-        this.state,
-        this.pharmacy,
-        this.requests
-
-    });
-
-    String ?name;
-    String ?email;
-    String ?category;
-    String ?image;
-    String ?wallet;
-    int ? peopleHelped;
-    String? city;
-    String ?state;
-    String ? pharmacy;
-    int ? requests;
-
-
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        name: json["name"],
-        email: json["email"],
-        category: json["category"],
-        image: json["image"],
-        wallet: json["wallet"],
-        peopleHelped: json["people_helped"],
-        city: json["city"],
-        state: json["state"],
-        pharmacy: json["pharmacy"],
-        requests: json["requests"],
-
-
-    );
-
-    Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
-        "category": category,
-        "image": image,
-        "wallet": wallet,
-        "people_helped": peopleHelped,
-        "city": city,
-        "state": state,
-        "pharmacy": pharmacy,
+        "_id": id,
+        "schoolName": schoolName,
+        "adminName": adminName,
     };
 }
